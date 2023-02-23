@@ -1,0 +1,132 @@
+#create the couchbase cluster using persistent volumes
+apiVersion: couchbase.com/v2
+kind: CouchbaseCluster
+metadata:
+  name: ual-cbs
+spec:
+  platform: aws
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 3000
+    fsGroup: 2000
+  image: couchbase/server:6.6.5
+  antiAffinity: true
+  cluster:
+    clusterName: ual-cbs
+    dataServiceMemoryQuota: 1024Mi # Per Server Node, so adjust accordingly
+    indexServiceMemoryQuota: 1024Mi # Per Server Node, so adjust accordingly
+    analyticsServiceMemoryQuota: 1024Mi #Per Server Node, so adjust accordingly
+    indexer:
+      storageMode: plasma
+    autoFailoverTimeout: 10s
+  security:
+    adminSecret: admin-credentials
+    uiSessionTimeout: 1200
+    rbac:
+      managed: false
+      selector:
+        matchLabels:
+          cluster: my-cluster
+ # networking:
+ #   tls:
+ #     rootCAs:
+ #     - couchbase-server-ca
+#      nodeToNodeEncryption: All
+#      secretSource:
+ #       serverSecretName: couchbase-server-tls
+ #      clientSecretName: couchbase-operator-tls
+#    exposeAdminConsole: true
+#    exposedFeatures:
+#      - xdcr
+#     - client
+#    exposedFeatureServiceType: LoadBalancer
+ #  dns:
+ #     domain: cbualdemo.ual-cbs.com
+  networking:
+    tls:
+      static:
+        serverSecret: couchbase-server-tls
+        operatorSecret: couchbase-operator-tls
+    exposeAdminConsole: true
+    adminConsoleServiceTemplate:
+      spec:
+        type: LoadBalancer
+    exposedFeatures:
+      - admin
+      - client
+      - xdcr
+    exposedFeatureServiceTemplate:
+      spec:
+        type: LoadBalancer
+    dns:
+     domain: cbualdemo.ual-cbs.com
+  buckets:
+    managed: false
+  servers:
+  - size: 3
+    name: dataNodes
+    services:
+    - data
+    pod:
+      metadata:
+        labels:
+          type: data-node
+          app: couchbase
+    volumeMounts:
+      default: cb-default-pvc    # /opt/couchbase/var/lib/couchbase
+      data: cb-data-pvc    # /mnt/data
+  - size: 2
+    name: indexAndQueryNodes
+    services:
+    - index
+    - query
+    volumeMounts:
+      default: cb-default-pvc    # /opt/couchbase/var/lib/couchbase
+      index: cb-index-pvc    # /mnt/index
+    pod:
+      metadata:
+        labels:
+          type: index-query-node
+          app: couchbase
+  - size: 1
+    name: analyticsNodes
+    services:
+    - analytics
+    volumeMounts:
+      default: cb-default-pvc    # /opt/couchbase/var/lib/couchbase
+      analytics:
+      - cb-analytics-pvc    # /mnt/index
+    pod:
+      metadata:
+        labels:
+          type: analytics-node
+          app: couchbase
+  volumeClaimTemplates:
+    - metadata:
+        name: cb-default-pvc
+      spec:
+        storageClassName: cb-default-sc
+        resources:
+          requests:
+            storage: 10Gi
+    - metadata:
+        name: cb-data-pvc
+      spec:
+        storageClassName: cb-default-sc
+        resources:
+          requests:
+            storage: 10Gi
+    - metadata:
+        name: cb-index-pvc
+      spec:
+        storageClassName: cb-default-sc
+        resources:
+          requests:
+            storage: 10Gi
+    - metadata:
+        name: cb-analytics-pvc
+      spec:
+        storageClassName: cb-default-sc
+        resources:
+          requests:
+            storage: 10Gi

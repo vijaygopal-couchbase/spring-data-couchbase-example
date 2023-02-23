@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sync-gateway 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sync-gateway
+  template:
+    metadata:
+      labels:
+        app: sync-gateway
+    spec:
+      containers:
+        - name: sync-gateway
+          image: couchbase/sync-gateway:2.8.3-enterprise 
+          args: ["/sync-gateway-config/sgw-config.json"] 
+          volumeMounts: 
+            - name: sgw-config-volume
+              mountPath: /sync-gateway-config
+              readOnly: true
+          env:
+            - name: GOMAXPROCS 
+              value: "2"
+      volumes: 
+        - name: sgw-config-volume
+          secret:
+            secretName: sgw-config

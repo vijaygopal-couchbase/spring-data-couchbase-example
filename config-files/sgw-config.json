@@ -1,0 +1,32 @@
+{
+    "logging": {
+        "log_file_path": "/var/tmp/sglogs",
+        "console": {
+            "enabled": true,
+            "log_level": "info",
+            "log_keys": [
+                "*"
+            ]
+        }
+    },
+    "databases": {
+        "db": {
+            "server": "couchbases://ual-cbs-srv",
+            "bucket": "default",
+            "username": "sguser",
+            "password": "password",
+            "users": {
+                "GUEST": {
+                    "disabled": false,
+                    "admin_channels": [
+                        "*"
+                    ]
+                }
+            },
+            "allow_conflicts": false,
+            "revs_limit": 20,
+            "enable_shared_bucket_access": true,
+            "import_docs": true
+        }
+    }
+}
