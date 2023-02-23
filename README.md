@@ -187,15 +187,4 @@ This will deploy sync gateway.
 
 ## Config files
 
-[storage-classes243 B](https://slimwiki.com/api/accounts/couchbase/attachments/224452)
-
-[couchbase\_secrets507 B](https://slimwiki.com/api/accounts/couchbase/attachments/224453)
-
-[cloudflare-manifest.yaml2 kB](https://slimwiki.com/api/accounts/couchbase/attachments/224450)
-
-[sgw-deployment-config693 B](https://slimwiki.com/api/accounts/couchbase/attachments/224454)
-
-[sgw-config789 B](https://slimwiki.com/api/accounts/couchbase/attachments/224455)
-
-[ual-cbs-cluster.yaml3 kB](https://slimwiki.com/api/accounts/couchbase/attachments/224451)
-
+All files used in setting up the cluster is located under config-files folder.
