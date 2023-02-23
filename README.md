@@ -33,7 +33,7 @@ The kubernetes name space created for this setup is called as " **ual-cbs-ao**".
 
 Setup an external DNS account with any of the providers (Cloudflare or GoDaddy etc..) and create a domain. Note that the below instructions correspond to Cloudflare.&nbsp;
 
-![](https://slimwiki.com/api/accounts/couchbase/attachments/223290)
+![](images/cloudflare.png)
 
 Before we setup the TLS certificate we need to determine which domain to use. For this installation we can consider that to be&nbsp; **ual-cbs.com.&nbsp;** If you are planning to setup multiple clusters under this domain then we need to create the cluster under a subdomain. For this installation we can consider that as&nbsp; **cbualdemo.&nbsp;** This subdomain will be part of dns entries while setting up the certificate. The cluster that will be created will be under the subdomain&nbsp; **cbualdemo.ual-cbs.com**
 
