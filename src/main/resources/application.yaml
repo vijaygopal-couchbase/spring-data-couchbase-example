@@ -1,0 +1,10 @@
+couchbase:
+  connection-string: couchbases://ec2-3-232-48-12.compute-1.amazonaws.com,ec2-34-237-80-38.compute-1.amazonaws.com,ec2-54-243-207-248.compute-1.amazonaws.com
+  username: Administrator
+  password: Couchbase2022
+  bucket-travel-sample:
+    name: travel-sample
+    user-name: Administrator
+    password: Couchbase2022
+    scope-name: inventory
+    collection-name: airline
