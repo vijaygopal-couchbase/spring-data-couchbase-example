@@ -22,14 +22,15 @@ import java.io.Serializable;
 public class Airline implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationStrategy.USE_ATTRIBUTES, delimiter = "airline_")
+    @GeneratedValue(strategy = GenerationStrategy.USE_ATTRIBUTES, delimiter = "::")
 
     @Field
-    @IdAttribute(order=0)
+    @IdAttribute(order=1)
     private String id;
     @Field
     private String type;
     @Field
+    @IdAttribute(order=0)
     private String name;
     @Field
     private String iata;

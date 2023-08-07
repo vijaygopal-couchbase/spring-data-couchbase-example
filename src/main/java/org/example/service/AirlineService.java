@@ -18,4 +18,12 @@ public class AirlineService {
     public Optional<Airline> getAirlineDocument(String id){
         return airlineRepostitory.findById(id);
     }
+
+    public Optional<Airline> saveAirline(){
+         Airline ariline = Airline.builder()
+        .country("USA").callsign("").id(String.valueOf(System.currentTimeMillis())).name("UAL")
+                 . build();
+         airlineRepostitory.save(ariline);
+         return Optional.of(ariline);
+    }
 }

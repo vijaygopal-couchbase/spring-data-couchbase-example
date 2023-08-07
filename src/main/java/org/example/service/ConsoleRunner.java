@@ -16,5 +16,6 @@ public class ConsoleRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println(airlineService.getAirlineDocument("airline_10"));
+        System.out.println(airlineService.saveAirline());
     }
 }
